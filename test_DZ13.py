@@ -24,7 +24,7 @@ def test_DZ_post():
     assert conclusionPOST.json()['id'] is not None
     # Проверяем, что имя ответа совпало с именем запроса
     assert conclusionPOST.json()['name'] == request['name']
-
+ 
     urlGet = "https://petstore.swagger.io/v2/pet/" + str(conclusionPOST.json()['id'])
     print("urlGet = ", urlGet)
     conclusionGet = requests.get(urlGet)
