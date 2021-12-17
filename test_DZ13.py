@@ -2,6 +2,7 @@ import requests
 import pytest
 
 def test_DZ_post():
+   # Создаём
     urlPost = "https://petstore.swagger.io/v2/pet"
     request = {}
     request['id'] = "14122021"
@@ -10,10 +11,9 @@ def test_DZ_post():
     request['category']['id'] = "212021"
     request['category']['name'] = "domovoy"
     request['photoUrls'] = ['photoBuba']
-    request['tags'] = [{'id': 25}]
-    # request['tags'] = {}
-    # request['tags']['id'] = "845"
-    # request['tags']['name'] = "tagBuba"
+    request['tags'] = [{}]
+    request['tags'][0]["id"] = 25
+    request['tags'][0]["name"] = "tadDomovoy"
     request['status'] = "sold"
     print("request", request)
 
@@ -24,7 +24,9 @@ def test_DZ_post():
     assert conclusionPOST.json()['id'] is not None
     # Проверяем, что имя ответа совпало с именем запроса
     assert conclusionPOST.json()['name'] == request['name']
- 
+
+   # проверяем
+
     urlGet = "https://petstore.swagger.io/v2/pet/" + str(conclusionPOST.json()['id'])
     print("urlGet = ", urlGet)
     conclusionGet = requests.get(urlGet)
@@ -33,7 +35,7 @@ def test_DZ_post():
     assert conclusionGet.json()['id'] == conclusionPOST.json()['id']
     assert conclusionGet.json()['name'] == request['name']
 
-
+   # Удаляем
     urlDel = "https://petstore.swagger.io/v2/pet/" + str(conclusionPOST.json()['id'])
     print("urlDel = ", urlDel)
     conclusionDel = requests.delete(urlDel)
@@ -45,4 +47,4 @@ def test_DZ_post():
     print("urlGet = ", urlGet)
     conclusionGet = requests.get(urlGet)
     print("conclusion Get= ", conclusionGet.json())
-    assert conclusionGet.json()['code'] == 1
+    assert conclusionGet.json()['message'] == "Pet not found"
